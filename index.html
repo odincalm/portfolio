@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ODIN.CALM — Android &amp; Web Dev | Academic &amp; Business Support</title>
+<meta name="description" content="Odin Calm — Android & Web Developer. Academic and business support. Building the future. Delivering the present.">
+<meta name="theme-color" content="#000000">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23000'/%3E%3Ctext x='16' y='23' font-family='monospace' font-size='15' font-weight='bold' fill='%23fff' text-anchor='middle'%3EOC%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  /* ============ MOBILE-FIRST ============ */
+  :root{
+    --bg:#000000;
+    --fg:#ffffff;
+    --line:#2a2a2a;
+    --line-soft:#1c1c1c;
+    --dim:#777777;
+    --wa:#25d366;
+    --mono:'Space Mono',ui-monospace,'Courier New',monospace;
+    --sans:'Inter',system-ui,-apple-system,sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth;scroll-padding-top:70px}
+  body{background:var(--bg);color:var(--fg);font-family:var(--sans);line-height:1.6;-webkit-font-smoothing:antialiased}
+  ::selection{background:#fff;color:#000}
+  ::-webkit-scrollbar{width:10px}
+  ::-webkit-scrollbar-track{background:#000}
+  ::-webkit-scrollbar-thumb{background:#333}
+  a{color:inherit;text-decoration:none}
+  button{font:inherit}
+  img{max-width:100%;height:auto;display:block}
+  .container{width:min(1140px,100% - 32px);margin:0 auto}
+
+  /* ---------- NAV (mobile: hamburger, drops down) ---------- */
+  .nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(0,0,0,.95);border-bottom:1px solid var(--line-soft);height:56px;display:flex;align-items:center}
+  .nav-inner{width:min(1140px,100% - 32px);margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:24px}
+  .logo{font-family:var(--mono);font-weight:700;font-size:14px;letter-spacing:1px;white-space:nowrap}
+  .logo .dot{color:var(--wa)}
+  .nav-burger{display:inline-flex;flex-direction:column;gap:5px;background:none;border:1px solid var(--line);padding:11px 9px;cursor:pointer}
+  .nav-burger .bar{width:20px;height:2px;background:#fff;transition:transform .2s,opacity .2s}
+  .nav.open .nav-burger .bar:nth-child(1){transform:translateY(7px) rotate(45deg)}
+  .nav.open .nav-burger .bar:nth-child(2){opacity:0}
+  .nav.open .nav-burger .bar:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+  .nav-links{display:none;position:absolute;top:100%;left:0;right:0;background:#000;border-bottom:1px solid var(--line);flex-direction:column;gap:2px;padding:12px 20px 18px;font-family:var(--mono);font-size:13px;letter-spacing:2px}
+  .nav-links a{padding:13px 4px;color:#ccc;border-bottom:1px solid #151515}
+  .nav-links a:hover{color:#fff}
+  .nav-links a.nav-cta{border:1px solid #fff;padding:13px;text-align:center;margin-top:12px}
+  .nav-links a.nav-cta:hover{background:#fff;color:#000}
+  .nav.open .nav-links{display:flex}
+
+  /* ---------- HERO (mobile: stacked, tight, fits the fold) ---------- */
+  .hero{min-height:100vh;min-height:100svh;display:flex;flex-direction:column;padding:76px 0 12px}
+  .hero .container{flex:1;display:flex;flex-direction:column;justify-content:center;gap:22px}
+  .hero-grid{display:grid;grid-template-columns:1fr;gap:30px}
+  .tagline{font-family:var(--mono);font-size:10px;letter-spacing:2px;color:var(--dim);margin-bottom:14px;display:flex;align-items:center;gap:9px}
+  .tagline::before{content:"";width:7px;height:7px;background:var(--wa);flex:none}
+  /* Hosted on ImgBB. To use a local file instead: <img src="profile.jpg" ...> */
+  .portrait{width:110px;height:110px;margin-bottom:18px;filter:grayscale(1) contrast(1.15);object-fit:cover;border-radius:0}
+  h1{font-family:var(--mono);font-weight:700;font-size:2.5rem;line-height:1.05;letter-spacing:-1px;margin-bottom:12px}
+  .hero-sub{font-family:var(--mono);font-size:10.5px;letter-spacing:1.5px;color:#cfcfcf;margin-bottom:26px}
+  .cta-row{display:flex;gap:12px;flex-wrap:wrap}
+  .btn{font-family:var(--mono);font-size:12.5px;font-weight:700;letter-spacing:1px;padding:13px 20px;border:1px solid #fff;color:#fff;background:transparent;cursor:pointer;display:inline-block;transition:background .15s,color .15s}
+  .btn:hover{background:#fff;color:#000}
+  .btn-wa{background:var(--wa);border-color:var(--wa);color:#000}
+  .btn-wa:hover{background:#2ee877;border-color:#2ee877;color:#000}
+
+  /* terminal */
+  .term{border:1px solid var(--line);background:#050505;font-family:var(--mono)}
+  .term-bar{display:flex;align-items:center;gap:8px;padding:10px 12px;border-bottom:1px solid var(--line)}
+  .term-dot{width:8px;height:8px;background:#333;flex:none}
+  .term-dot.on{background:#fff}
+  .term-title{margin-left:8px;font-size:10px;color:var(--dim);letter-spacing:1px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .term-body{padding:14px 12px 16px;font-size:12px;line-height:1.95;min-height:158px;color:#e8e8e8;white-space:pre-wrap;word-break:break-word}
+  .t-pr{color:#5f5f5f;user-select:none}
+  .t-dim{color:#787878}
+  .t-ready{color:var(--wa);font-weight:700}
+  .cursor{display:inline-block;width:7px;height:13px;background:#fff;vertical-align:-2px;margin-left:1px;animation:blink 1s steps(1) infinite}
+  @keyframes blink{50%{opacity:0}}
+
+  /* status strip — in normal flow so it can never overlap the buttons */
+  .hero-strip{border-top:1px solid var(--line-soft);padding:12px 0;font-family:var(--mono);font-size:9.5px;letter-spacing:2px;color:var(--dim);display:flex;justify-content:space-between;gap:14px}
+  .avail::before{content:"";display:inline-block;width:6px;height:6px;background:var(--wa);margin-right:8px;animation:pulse 2s ease-in-out infinite}
+  @keyframes pulse{50%{opacity:.25}}
+
+  /* ---------- SECTIONS ---------- */
+  section{border-top:1px solid var(--line-soft);padding:64px 0}
+  .sec-head{display:flex;align-items:center;gap:14px;margin-bottom:32px}
+  .sec-no{font-family:var(--mono);color:#5c5c5c;font-size:12px;flex:none}
+  .sec-head h2{font-family:var(--mono);font-size:1.3rem;letter-spacing:1px;font-weight:700;white-space:nowrap}
+  .sec-rule{flex:1;height:1px;background:var(--line)}
+  .sec-note{font-family:var(--mono);font-size:10px;color:#5c5c5c;letter-spacing:2px;flex:none}
+
+  /* services — 1 col mobile */
+  .svc-grid{display:grid;grid-template-columns:1fr;gap:1px;background:var(--line);border:1px solid var(--line)}
+  .svc{background:#000;padding:26px 20px 22px;transition:background .15s}
+  .svc:hover{background:#0d0d0d}
+  .svc-no{font-family:var(--mono);font-size:11px;color:#555;letter-spacing:2px;display:block;margin-bottom:20px}
+  .svc h3{font-family:var(--mono);font-size:15px;letter-spacing:1px;margin-bottom:14px}
+  .svc ul{list-style:none}
+  .svc li{font-size:13.5px;color:#bdbdbd;padding:9px 0;border-top:1px solid #191919}
+  .svc li::before{content:"+ ";color:#555;font-family:var(--mono)}
+
+  /* why me — 1 col mobile */
+  .why-grid{display:grid;grid-template-columns:1fr;gap:40px}
+  .why-grid h3{font-family:var(--mono);font-size:1.5rem;line-height:1.2;margin-bottom:18px}
+  .why-grid p{color:#c9c9c9}
+  .punch{font-family:var(--mono);font-weight:700;letter-spacing:3px;margin-top:22px;font-size:13px}
+  .chart{border:1px solid var(--line);padding:18px 12px 8px;background:#030303}
+  .chart svg{width:100%;height:auto;display:block}
+  .chart-cap{font-family:var(--mono);font-size:9.5px;letter-spacing:2px;color:var(--dim);padding:12px 4px 4px;display:flex;gap:20px;flex-wrap:wrap}
+  .sw{display:inline-block;width:22px;border-top:2px solid #fff;vertical-align:middle;margin-right:8px}
+  .sw.dash{border-top:2px dashed #6f6f6f}
+
+  /* work */
+  .work-list{border-top:1px solid var(--line)}
+  .work-row{display:grid;grid-template-columns:1fr auto;align-items:center;gap:12px 14px;padding:18px 4px;border-bottom:1px solid var(--line);transition:background .15s,color .15s}
+  .work-row:hover{background:#fff;color:#000}
+  .work-tag{font-family:var(--mono);font-size:10px;letter-spacing:2px;border:1px solid currentColor;padding:5px 9px;justify-self:start;white-space:nowrap}
+  .work-mid{grid-column:1 / -1}
+  .work-name{font-family:var(--mono);font-size:15px;font-weight:700;letter-spacing:1px}
+  .work-desc{font-size:12.5px;color:#8a8a8a;margin-top:3px}
+  .work-row:hover .work-desc{color:#333}
+  .work-id{display:none}
+  .work-view{font-family:var(--mono);font-size:10.5px;letter-spacing:2px;border:1px solid currentColor;padding:10px 16px;white-space:nowrap;transition:background .15s,color .15s}
+  .work-row:hover .work-view{background:#000;color:#fff;border-color:#000}
+  .work-note{font-family:var(--mono);font-size:10px;letter-spacing:1.5px;color:#5c5c5c;margin-top:20px}
+
+  /* contact */
+  .ready{font-family:var(--mono);font-size:1.6rem;line-height:1.1;margin-bottom:12px}
+  .contact-sub{color:#aaa;max-width:60ch;margin-bottom:28px;font-size:14px}
+  .btn-big{font-size:13.5px;padding:16px 28px}
+  .contact-rows{margin-top:40px;border-top:1px solid var(--line);font-family:var(--mono)}
+  .c-row{display:grid;grid-template-columns:1fr auto;gap:6px 14px;align-items:center;padding:14px 4px;border-bottom:1px solid var(--line)}
+  .c-label{grid-column:1 / -1;font-size:10px;letter-spacing:2px;color:var(--dim)}
+  .c-val{font-size:13.5px;overflow-wrap:anywhere}
+  .c-act{font-size:10.5px;letter-spacing:2px;border:1px solid var(--line);padding:10px 16px;cursor:pointer;background:none;color:#fff;font-family:var(--mono);transition:background .15s,color .15s,border-color .15s}
+  .c-act:hover{border-color:#fff;background:#fff;color:#000}
+
+  /* footer */
+  footer{border-top:1px solid var(--line-soft);padding:22px 0;font-family:var(--mono);font-size:10px;letter-spacing:1.5px;color:var(--dim)}
+  .foot-inner{display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap}
+  .foot-links a{color:#999;margin-left:22px;transition:color .15s}
+  .foot-links a:hover{color:#fff}
+
+  /* dialogs */
+  dialog{background:#000;color:#ddd;border:1px solid var(--line);max-width:520px;width:calc(100% - 40px);padding:0}
+  dialog::backdrop{background:rgba(0,0,0,.85)}
+  .dlg-head{display:flex;justify-content:space-between;align-items:center;padding:14px 18px;border-bottom:1px solid var(--line);font-family:var(--mono);letter-spacing:2px;font-size:12px}
+  .dlg-body{padding:18px;font-size:13.5px;color:#bbb;line-height:1.75}
+  .dlg-close{background:none;border:1px solid var(--line);color:#fff;font-family:var(--mono);font-size:11px;letter-spacing:2px;padding:5px 12px;cursor:pointer;transition:background .15s,color .15s}
+  .dlg-close:hover{background:#fff;color:#000}
+
+  /* reveal */
+  .reveal{opacity:0;transform:translateY(14px);transition:opacity .5s ease,transform .5s ease}
+  .reveal.in{opacity:1;transform:none}
+
+  /* ============ TABLET ≥769px ============ */
+  @media(min-width:769px){
+    .container{width:min(1140px,100% - 48px)}
+    section{padding:88px 0}
+    .sec-head{gap:20px;margin-bottom:44px}
+    .sec-head h2{font-size:1.7rem}
+    .svc-grid{grid-template-columns:repeat(2,1fr)}
+    .svc{padding:32px 26px}
+    .hero-grid{gap:44px}
+    h1{font-size:3.2rem}
+    .portrait{width:130px;height:130px}
+    .term-body{font-size:13px}
+    .work-row{grid-template-columns:auto 1fr auto}
+    .work-mid{grid-column:auto}
+    .work-id{display:block;font-family:var(--mono);font-size:11px;letter-spacing:2px;color:#5c5c5c}
+    .ready{font-size:2.2rem}
+  }
+
+  /* ============ DESKTOP ≥1025px ============ */
+  @media(min-width:1025px){
+    html{scroll-padding-top:96px}
+    .nav{height:64px}
+    .nav-inner{width:min(1140px,calc(100% - 48px))}
+    .logo{font-size:15px}
+    .nav-burger{display:none}
+    .nav-links{display:flex;position:static;flex-direction:row;gap:28px;align-items:center;font-size:11px;padding:0;border:none;background:none}
+    .nav-links a{padding:6px 2px;color:#bbb;border-bottom:none}
+    .nav-links a.nav-cta{border:1px solid #fff;padding:9px 16px;margin-top:0;text-align:left}
+    .hero{padding:110px 0 40px}
+    .hero .container{gap:36px}
+    .hero-grid{grid-template-columns:1.15fr .85fr;gap:72px;align-items:center}
+    .tagline{font-size:12px;letter-spacing:3px;margin-bottom:20px}
+    .tagline::before{width:8px;height:8px}
+    .portrait{width:150px;height:150px;margin-bottom:28px}
+    h1{font-size:4rem;margin-bottom:18px}
+    .hero-sub{font-size:13px;letter-spacing:2.5px;margin-bottom:42px}
+    .btn{font-size:14px;padding:16px 28px}
+    .term-bar{padding:11px 14px}
+    .term-body{padding:20px 18px 24px;font-size:13.5px;line-height:2.05;min-height:196px}
+    .hero-strip{padding:15px 0;font-size:10.5px}
+    section{padding:120px 0}
+    .sec-head{margin-bottom:56px}
+    .sec-head h2{font-size:2rem}
+    .sec-no{font-size:13px}
+    .sec-note{font-size:11px}
+    .svc-grid{grid-template-columns:repeat(3,1fr)}
+    .svc{padding:36px 30px 30px}
+    .svc-no{font-size:12px;margin-bottom:34px}
+    .svc h3{font-size:17px;margin-bottom:20px}
+    .svc li{font-size:14px;padding:11px 0}
+    .why-grid{grid-template-columns:1fr 1fr;gap:72px;align-items:center}
+    .why-grid h3{font-size:2.4rem;margin-bottom:26px}
+    .punch{font-size:14px;margin-top:30px}
+    .chart{padding:26px 18px 14px}
+    .chart-cap{font-size:10.5px;padding:14px 4px 4px}
+    .work-row{grid-template-columns:auto 1fr auto auto;gap:14px 24px;padding:26px 10px}
+    .work-tag{font-size:11px;padding:5px 11px}
+    .work-name{font-size:19px}
+    .work-desc{font-size:12.5px}
+    .work-view{font-size:11px;padding:9px 16px}
+    .work-note{font-size:11px;margin-top:26px}
+    .ready{font-size:3.4rem;margin-bottom:18px}
+    .contact-sub{font-size:16px;margin-bottom:44px}
+    .btn-big{font-size:18px;padding:22px 46px}
+    .contact-rows{margin-top:64px}
+    .c-row{grid-template-columns:140px 1fr auto;padding:18px 10px}
+    .c-label{grid-column:auto;font-size:11px}
+    .c-val{font-size:15px}
+    .c-act{font-size:11px}
+    footer{padding:28px 0;font-size:11px}
+  }
+
+  @media (prefers-reduced-motion:reduce){
+    html{scroll-behavior:auto}
+    *,*::before,*::after{animation:none!important;transition:none!important}
+    .reveal{opacity:1;transform:none}
+  }
+</style>
+</head>
+<body>
+
+<!-- ================= NAV ================= -->
+<nav class="nav" id="siteNav">
+  <div class="nav-inner">
+    <a class="logo" href="#top">ODIN<span class="dot">.</span>CALM</a>
+    <button class="nav-burger" id="navBurger" type="button" aria-label="Open menu" aria-expanded="false">
+      <span class="bar"></span><span class="bar"></span><span class="bar"></span>
+    </button>
+    <div class="nav-links" id="navLinks">
+      <a href="#services">SERVICES</a>
+      <a href="#why">WHY ME</a>
+      <a href="#work">WORK</a>
+      <a href="#contact" class="nav-cta">[ CONTACT ]</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ================= HERO ================= -->
+<header class="hero" id="top">
+  <div class="container">
+    <div class="hero-grid">
+      <div>
+        <p class="tagline">BUILDING THE FUTURE. DELIVERING THE PRESENT.</p>
+        <!-- Hosted on ImgBB. To use a local file instead: <img src="profile.jpg" ...> -->
+        <img class="portrait" src="https://i.ibb.co/RkMYGHrB/unnamed.jpg" alt="Odin Calm" width="110" height="110">
+        <h1>ODIN CALM</h1>
+        <p class="hero-sub">ANDROID DEV&nbsp;|&nbsp;WEB DEV&nbsp;|&nbsp;ACADEMIC &amp; BUSINESS SUPPORT</p>
+        <div class="cta-row">
+          <!-- If you're outside India, change 91 to your country code -->
+          <a class="btn btn-wa" href="https://wa.me/919034951794?text=Hi%20Odin%20%E2%80%94%20I%20want%20to%20discuss%20a%20project." target="_blank" rel="noopener">[ HIRE ME ]</a>
+          <a class="btn" href="#work">[ SEE WORK ]</a>
+        </div>
+      </div>
+      <div class="term" aria-label="Terminal demo">
+        <div class="term-bar">
+          <span class="term-dot on"></span><span class="term-dot"></span><span class="term-dot"></span>
+          <span class="term-title">odin@dev: ~/portfolio</span>
+        </div>
+        <div class="term-body" id="termOut"></div>
+      </div>
+    </div>
+    <div class="hero-strip">
+      <span class="avail">STATUS: AVAILABLE FOR WORK</span>
+      <span class="scroll-hint">SCROLL &#8595;</span>
+    </div>
+  </div>
+</header>
+
+<!-- ================= SERVICES ================= -->
+<section id="services">
+  <div class="container">
+    <div class="sec-head reveal">
+      <span class="sec-no">01</span>
+      <h2>SERVICES</h2>
+      <span class="sec-rule"></span>
+      <span class="sec-note">3 CATEGORIES</span>
+    </div>
+    <div class="svc-grid">
+      <div class="svc reveal">
+        <span class="svc-no">01 /</span>
+        <h3>DEV WORK</h3>
+        <ul>
+          <li>Android Apps (AI-Assisted)</li>
+          <li>Web Development (Next.js / React)</li>
+          <li>Bug Fixing &amp; Optimization</li>
+        </ul>
+      </div>
+      <div class="svc reveal">
+        <span class="svc-no">02 /</span>
+        <h3>ACADEMIC SUPPORT</h3>
+        <ul>
+          <li>Assignments &amp; Research Papers</li>
+          <li>Notes &amp; Summaries</li>
+          <li>PDF Formatting &amp; Conversion</li>
+        </ul>
+      </div>
+      <div class="svc reveal">
+        <span class="svc-no">03 /</span>
+        <h3>BUSINESS TOOLS</h3>
+        <ul>
+          <li>Professional PPTs</li>
+          <li>Business Plans &amp; Docs</li>
+          <li>Data Presentation</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= WHY ME ================= -->
+<section id="why">
+  <div class="container">
+    <div class="sec-head reveal">
+      <span class="sec-no">02</span>
+      <h2>WHY ME</h2>
+      <span class="sec-rule"></span>
+    </div>
+    <div class="why-grid">
+      <div class="reveal">
+        <h3>EFFICIENCY OVER PERFECTION.</h3>
+        <p>I don&rsquo;t waste time. I use AI to accelerate development and deliver results faster than traditional methods. You get pro-level work at student-friendly rates.</p>
+        <p class="punch">FAST. RELIABLE. DIRECT.</p>
+      </div>
+      <div class="chart reveal" aria-label="Speed up, cost down">
+        <svg viewBox="0 0 520 320" xmlns="http://www.w3.org/2000/svg">
+          <!-- gridlines -->
+          <g stroke="#151515" stroke-width="1">
+            <line x1="40" y1="60" x2="500" y2="60"/>
+            <line x1="40" y1="120" x2="500" y2="120"/>
+            <line x1="40" y1="180" x2="500" y2="180"/>
+            <line x1="40" y1="240" x2="500" y2="240"/>
+          </g>
+          <!-- legend -->
+          <line x1="56" y1="30" x2="86" y2="30" stroke="#fff" stroke-width="2"/>
+          <text x="96" y="34" font-family="monospace" font-size="11" fill="#fff" letter-spacing="2">SPEED / OUTPUT</text>
+          <line x1="250" y1="30" x2="280" y2="30" stroke="#6f6f6f" stroke-width="2" stroke-dasharray="6 6"/>
+          <text x="290" y="34" font-family="monospace" font-size="11" fill="#8a8a8a" letter-spacing="2">COST</text>
+          <!-- axes -->
+          <path d="M40 20 V280 H500" fill="none" stroke="#4a4a4a" stroke-width="1.5"/>
+          <!-- cost: falling -->
+          <polyline points="40,90 140,130 240,168 340,208 500,252" fill="none" stroke="#6f6f6f" stroke-width="2" stroke-dasharray="7 7"/>
+          <!-- speed: rising -->
+          <polyline points="40,250 140,212 240,158 340,112 500,52" fill="none" stroke="#fff" stroke-width="2.5"/>
+          <!-- arrowheads -->
+          <path d="M494 60 l6 -8 6 8" fill="none" stroke="#fff" stroke-width="2"/>
+          <path d="M494 262 l6 8 6 -8" fill="none" stroke="#6f6f6f" stroke-width="2"/>
+          <!-- axis labels -->
+          <text x="500" y="300" font-family="monospace" font-size="10" fill="#666" text-anchor="end" letter-spacing="2">TIME</text>
+          <text x="34" y="34" font-family="monospace" font-size="10" fill="#666" text-anchor="end" letter-spacing="1">VAL</text>
+        </svg>
+        <div class="chart-cap">
+          <span><span class="sw"></span>SPEED INCREASES</span>
+          <span><span class="sw dash"></span>COST DECREASES</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= WORK ================= -->
+<section id="work">
+  <div class="container">
+    <div class="sec-head reveal">
+      <span class="sec-no">03</span>
+      <h2>WORK</h2>
+      <span class="sec-rule"></span>
+      <span class="sec-note">4 CASE_STUDIES</span>
+    </div>
+    <div class="work-list">
+      <a class="work-row reveal" href="https://barber-olive-delta.vercel.app/" target="_blank" rel="noopener">
+        <span class="work-tag">BARBER SITE</span>
+        <span class="work-mid">
+          <span class="work-name">BARBER — OLIVE DELTA</span>
+          <span class="work-desc">Complete booking-ready website for a barbershop. Services, gallery and contact — built to convert visitors into walk-ins.</span>
+        </span>
+        <span class="work-id">CASE_001</span>
+        <span class="work-view">[ VIEW ]</span>
+      </a>
+      <a class="work-row reveal" href="https://nikkblend-web.vercel.app/" target="_blank" rel="noopener">
+        <span class="work-tag">BARBER SITE</span>
+        <span class="work-mid">
+          <span class="work-name">NIKKBLEND WEB</span>
+          <span class="work-desc">A second barbershop build — same business problem, sharper execution. Proves the first one wasn&rsquo;t luck.</span>
+        </span>
+        <span class="work-id">CASE_002</span>
+        <span class="work-view">[ VIEW ]</span>
+      </a>
+      <a class="work-row reveal" href="https://odin-plum-tau.vercel.app/" target="_blank" rel="noopener">
+        <span class="work-tag">UI SHOWCASE</span>
+        <span class="work-mid">
+          <span class="work-name">ODIN — PLUM TAU</span>
+          <span class="work-desc">A pure UI design showcase — how far a website can be pushed visually. Proof that &ldquo;functional&rdquo; and &ldquo;beautiful&rdquo; aren&rsquo;t enemies.</span>
+        </span>
+        <span class="work-id">CASE_003</span>
+        <span class="work-view">[ VIEW ]</span>
+      </a>
+      <a class="work-row reveal" href="https://itsleo4.github.io/stoic/" target="_blank" rel="noopener">
+        <span class="work-tag">FRONTEND</span>
+        <span class="work-mid">
+          <span class="work-name">STOIC</span>
+          <span class="work-desc">A minimal personal frontend project — clean layout, clean code. No frameworks, no bloat.</span>
+        </span>
+        <span class="work-id">CASE_004</span>
+        <span class="work-view">[ VIEW ]</span>
+      </a>
+    </div>
+    <p class="work-note reveal">// EVERY PROJECT IS A CASE STUDY: PROBLEM IN, SOLUTION OUT.</p>
+  </div>
+</section>
+
+<!-- ================= CONTACT ================= -->
+<section id="contact">
+  <div class="container">
+    <div class="sec-head reveal">
+      <span class="sec-no">04</span>
+      <h2>CONTACT</h2>
+      <span class="sec-rule"></span>
+    </div>
+    <div class="reveal">
+      <p class="ready">READY TO START?</p>
+      <p class="contact-sub">No forms. No waiting. One message and we&rsquo;re building.</p>
+      <a class="btn btn-wa btn-big" href="https://wa.me/919034951794?text=Hi%20Odin%20%E2%80%94%20I%20want%20to%20discuss%20a%20project." target="_blank" rel="noopener">[ WHATSAPP NOW ]</a>
+    </div>
+    <div class="contact-rows reveal">
+      <div class="c-row">
+        <span class="c-label">EMAIL</span>
+        <span class="c-val">odincalm@proton.me</span>
+        <button class="c-act" data-copy="odincalm@proton.me" type="button">[ COPY ]</button>
+      </div>
+      <div class="c-row">
+        <span class="c-label">INSTAGRAM</span>
+        <span class="c-val">@odincalm0</span>
+        <a class="c-act" href="https://instagram.com/odincalm0" target="_blank" rel="noopener">[ OPEN ]</a>
+      </div>
+      <div class="c-row">
+        <span class="c-label">WHATSAPP</span>
+        <span class="c-val">+91 90349 51794</span>
+        <a class="c-act" href="https://wa.me/919034951794" target="_blank" rel="noopener">[ CHAT ]</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= FOOTER ================= -->
+<footer>
+  <div class="container foot-inner">
+    <span>&copy; 2026 ODIN CALM. BUILT WITH CODE. DELIVERED WITH SPEED.</span>
+    <span class="foot-links">
+      <a href="#" data-dialog-open="dlg-privacy">PRIVACY</a>
+      <a href="#" data-dialog-open="dlg-terms">TERMS</a>
+    </span>
+  </div>
+</footer>
+
+<!-- ================= DIALOGS ================= -->
+<dialog id="dlg-privacy">
+  <div class="dlg-head"><span>PRIVACY</span><button class="dlg-close" type="button">[ X ]</button></div>
+  <div class="dlg-body">
+    <p>This site collects nothing. No cookies, no trackers, no analytics. When you contact me, your details are used only to reply to your inquiry. That&rsquo;s it.</p>
+  </div>
+</dialog>
+<dialog id="dlg-terms">
+  <div class="dlg-head"><span>TERMS</span><button class="dlg-close" type="button">[ X ]</button></div>
+  <div class="dlg-body">
+    <p>All work is delivered as agreed in writing before a project starts. Scope, deadline and price are fixed upfront. One revision round included; extras billed fairly.</p>
+  </div>
+</dialog>
+
+<script>
+(function(){
+  "use strict";
+  var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  /* ---- mobile nav ---- */
+  var nav = document.getElementById("siteNav");
+  var burger = document.getElementById("navBurger");
+  burger.addEventListener("click", function(){
+    var open = nav.classList.toggle("open");
+    burger.setAttribute("aria-expanded", open ? "true" : "false");
+    burger.setAttribute("aria-label", open ? "Close menu" : "Open menu");
+  });
+  nav.querySelectorAll(".nav-links a").forEach(function(a){
+    a.addEventListener("click", function(){
+      nav.classList.remove("open");
+      burger.setAttribute("aria-expanded", "false");
+    });
+  });
+
+  /* ---- terminal typing ---- */
+  var LINES = [
+    {p:1, t:"cd /odincalm"},
+    {p:1, t:"./build-success.sh"},
+    {d:1, t:"loading skills ........ [ok]"},
+    {d:1, t:"ai_acceleration ....... [ok]"},
+    {t:"Status: ", r:1, ready:"READY"}
+  ];
+
+  function renderInstant(out, cursor){
+    LINES.forEach(function(ln){
+      var div = document.createElement("div");
+      if(ln.p){ var pr = document.createElement("span"); pr.className="t-pr"; pr.textContent="> "; div.appendChild(pr); }
+      if(ln.d) div.className="t-dim";
+      if(ln.r){
+        div.appendChild(document.createTextNode("Status: "));
+        var b = document.createElement("span"); b.className="t-ready"; b.textContent="READY"; div.appendChild(b);
+      } else {
+        div.appendChild(document.createTextNode(ln.t));
+      }
+      out.appendChild(div);
+    });
+    out.lastChild.appendChild(cursor);
+  }
+
+  function typeTerminal(){
+    var out = document.getElementById("termOut");
+    var cursor = document.createElement("span"); cursor.className = "cursor";
+    if(reduced){ renderInstant(out, cursor); return; }
+    var i = 0;
+    function nextLine(){
+      if(i >= LINES.length){ out.lastChild.appendChild(cursor); return; }
+      var ln = LINES[i++];
+      var div = document.createElement("div");
+      if(ln.p){ var pr = document.createElement("span"); pr.className="t-pr"; pr.textContent="> "; div.appendChild(pr); }
+      if(ln.d) div.className="t-dim";
+      out.appendChild(div);
+      div.appendChild(cursor);
+      var chars = ln.r ? "READY" : ln.t;
+      if(ln.r){ cursor.before(document.createTextNode("Status: ")); }
+      var ci = 0;
+      (function typeChar(){
+        if(ci < chars.length){
+          cursor.before(document.createTextNode(chars.charAt(ci++)));
+          setTimeout(typeChar, 34 + Math.random()*40);
+        } else {
+          setTimeout(nextLine, ln.p ? 320 : 430);
+        }
+      })();
+    }
+    nextLine();
+  }
+  typeTerminal();
+
+  /* ---- reveal on scroll ---- */
+  var reveals = document.querySelectorAll(".reveal");
+  if(reduced || !("IntersectionObserver" in window)){
+    reveals.forEach(function(el){ el.classList.add("in"); });
+  } else {
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if(e.isIntersecting){ e.target.classList.add("in"); io.unobserve(e.target); }
+      });
+    }, {threshold:.12});
+    reveals.forEach(function(el){ io.observe(el); });
+  }
+
+  /* ---- copy to clipboard ---- */
+  document.querySelectorAll("[data-copy]").forEach(function(btn){
+    btn.addEventListener("click", function(){
+      var val = btn.getAttribute("data-copy");
+      function done(){
+        var orig = btn.textContent;
+        btn.textContent = "[ COPIED ]";
+        setTimeout(function(){ btn.textContent = orig; }, 1400);
+      }
+      if(navigator.clipboard && navigator.clipboard.writeText){
+        navigator.clipboard.writeText(val).then(done, done);
+      } else {
+        var ta = document.createElement("textarea");
+        ta.value = val; document.body.appendChild(ta); ta.select();
+        try{ document.execCommand("copy"); }catch(e){}
+        ta.remove(); done();
+      }
+    });
+  });
+
+  /* ---- dialogs ---- */
+  document.querySelectorAll("[data-dialog-open]").forEach(function(a){
+    a.addEventListener("click", function(e){
+      e.preventDefault();
+      var d = document.getElementById(a.getAttribute("data-dialog-open"));
+      if(d) d.showModal();
+    });
+  });
+  document.querySelectorAll(".dlg-close").forEach(function(b){
+    b.addEventListener("click", function(){ b.closest("dialog").close(); });
+  });
+})();
+</script>
+</body>
+</html>
