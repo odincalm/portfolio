@@ -5,6 +5,7 @@ import { Shell } from "@/components/shell";
 import { PreferencesProvider, usePrefs } from "@/lib/preferences";
 import { site } from "@/lib/site";
 import appCss from "../styles.css?url";
+import { Analytics } from "@vercel/analytics/react";
 
 const THEME_BOOT = `try{var t=localStorage.getItem("odin-theme");if(t==="light"||t==="dark")document.documentElement.setAttribute("data-theme",t);}catch(e){}`;
 
@@ -58,6 +59,7 @@ function Document() {
           </Shell>
         </AuthProvider>
         <Scripts />
+        <Analytics />
       </body>
     </html>
   );

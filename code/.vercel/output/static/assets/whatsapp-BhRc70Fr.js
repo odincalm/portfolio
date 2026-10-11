@@ -1,0 +1,2 @@
+function e(e,t){let n=[],r=e.trim();r&&n.push(r);for(let e of t){if(e.value==null)continue;let t=String(e.value).trim();t&&n.push(`${e.label}: ${t}`)}return n.join(`
+`)}function t(e,t){return`https://wa.me/${e}?text=${encodeURIComponent(t)}`}function n(e,t,n){return`mailto:${e}?subject=${encodeURIComponent(t)}&body=${encodeURIComponent(n)}`}export{n,t as r,e as t};

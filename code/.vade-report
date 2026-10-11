@@ -1,0 +1,58 @@
+# Vercel Web Analytics Integration
+
+Successfully implemented Vercel Web Analytics for the TanStack Start portfolio project.
+
+## What was implemented:
+
+### 1. Package Installation
+- Installed `@vercel/analytics` package (version added to package.json)
+- Updated package-lock.json with the new dependency and its subdependencies
+
+### 2. Analytics Integration
+- Added Analytics component to `src/routes/__root.tsx`
+- Imported from `@vercel/analytics/react` (appropriate for React-based TanStack Start)
+- Placed `<Analytics />` component in the Document body, right before the closing `</body>` tag
+- This ensures analytics tracking on all pages throughout the application
+
+### 3. Implementation Details
+
+**Modified Files:**
+- `package.json` - Added @vercel/analytics dependency
+- `package-lock.json` - Updated with new dependencies
+- `src/routes/__root.tsx` - Added Analytics import and component
+
+**Code Changes:**
+```typescript
+// Added import at the top
+import { Analytics } from "@vercel/analytics/react";
+
+// Added component in the body (after Scripts component)
+<Scripts />
+<Analytics />
+```
+
+### 4. Verification
+- ✅ TypeScript type checking passed (`npm run typecheck`)
+- ✅ Build completed successfully (`npm run build`)
+- ✅ All dependencies installed correctly
+- ✅ No new linting errors introduced (existing linter warnings are unrelated to this change)
+- ✅ Test suite results unchanged (8 pre-existing test failures unrelated to analytics)
+
+## Framework-Specific Implementation
+
+This project uses TanStack Start, which is built on React. Following the official Vercel documentation, I used the React integration (`@vercel/analytics/react`) and placed the Analytics component in the root layout file (`__root.tsx`), which is the TanStack Start equivalent of a root App component.
+
+## Next Steps for Deployment
+
+After deployment to Vercel:
+1. Enable Web Analytics in the Vercel Dashboard (Analytics tab → Enable button)
+2. Analytics will start tracking page views automatically
+3. Verify installation by checking browser Network tab for requests to `/_vercel/insights/*`
+4. View analytics data in the Vercel Dashboard after user visits accumulate
+
+## Notes
+
+- The Analytics component is lightweight and won't impact application performance
+- Analytics data is collected respecting user privacy and GDPR compliance
+- The integration works in both development and production environments
+- No additional configuration is required in the codebase
